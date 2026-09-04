@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claim Before Item — an assessment design prompt</title>
+<style>
+:root{--ink:#12242B;--panel:#1B333B;--panel2:#162C34;--cream:#EDE7DA;--body:#C3D0D2;
+  --muted:#8AA3A7;--gold:#E0A33E;--brick:#E08A70;
+  --serif:"Cambria","Palatino Linotype",Georgia,serif;
+  --sans:"Calibri","Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--cream);font-family:var(--sans);font-weight:600;line-height:1.55;
+  padding:56px 24px 90px}
+.wrap{max-width:1000px;margin:0 auto}
+.eyebrow{font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:18px}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(38px,6vw,62px);line-height:1.06;letter-spacing:-.015em}
+h1 em{font-style:italic;color:var(--gold)}
+.lede{font-size:20px;color:var(--body);margin-top:18px;max-width:70ch}
+.rule{width:96px;height:4px;background:var(--gold);margin:30px 0}
+h2{font-family:var(--serif);font-weight:700;font-size:30px;margin:44px 0 14px}
+p,li{font-size:17.5px;color:var(--body)}
+ol.steps{list-style:none;counter-reset:s;display:grid;gap:12px;margin-top:8px}
+ol.steps li{counter-increment:s;padding-left:44px;position:relative}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:-1px;width:30px;height:30px;
+  border:2px solid var(--gold);border-radius:50%;color:var(--gold);font-family:var(--serif);
+  font-size:17px;display:grid;place-items:center}
+.bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:26px 0 12px}
+button{font:inherit;font-size:14px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  padding:11px 18px;border-radius:4px;cursor:pointer;border:2px solid var(--gold);
+  background:var(--gold);color:var(--ink);transition:filter .2s,transform .3s cubic-bezier(.16,1,.3,1)}
+button.ghost{background:none;color:var(--gold)}
+button:hover{filter:brightness(1.08);transform:translateY(-1px)}
+button:focus-visible{outline:3px solid var(--cream);outline-offset:2px}
+#ok{color:var(--gold);font-size:15px;font-weight:700;opacity:0;transition:opacity .3s}
+#ok.on{opacity:1}
+pre{background:var(--panel2);border:2px solid rgba(138,163,167,.3);border-left:4px solid var(--gold);
+  border-radius:5px;padding:26px 28px;overflow-x:auto;white-space:pre-wrap;
+  font-family:"Consolas","SF Mono",ui-monospace,monospace;font-size:15.5px;line-height:1.62;
+  color:#DCE6E7;font-weight:500}
+.note{background:var(--panel);border:2px solid rgba(224,163,62,.4);border-radius:5px;padding:22px 26px;margin-top:22px}
+.note h3{font-family:var(--serif);font-weight:700;font-size:22px;color:var(--gold);margin-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:10px}
+.card{background:var(--panel);border:2px solid rgba(138,163,167,.28);border-radius:5px;padding:20px 22px}
+.card h3{font-family:var(--serif);font-weight:700;font-size:21px;margin-bottom:6px}
+.card p{font-size:16.5px}
+footer{margin-top:56px;padding-top:22px;border-top:2px solid rgba(138,163,167,.22);
+  font-size:15px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Yours to take</div>
+  <h1>Claim before <em>item</em>.</h1>
+  <p class="lede">A prompt that makes an AI build the assessment in the right order: the claim, then the evidence that would warrant it, and only then the task. Paste it into any assistant. Fill in the four inputs at the top and answer its questions honestly.</p>
+  <div class="rule"></div>
+
+  <div class="bar">
+    <button id="copy">Copy the prompt</button>
+    <button class="ghost" id="dl">Download as .txt</button>
+    <span id="ok">Copied.</span>
+  </div>
+
+<pre id="p">ROLE
+You are an assessment designer working in the Evidence-Centred Design tradition.
+You do not write a single item until the claim and the evidence rules exist.
+
+WHAT I WILL GIVE YOU
+  LEVEL:       [CEFR level, e.g. A2]
+  DESCRIPTOR:  [paste the CEFR descriptor exactly as written]
+  CONTEXT:     [learner age, course or book, why this assessment is being run]
+  DECISION:    [what will be decided from the result, and by whom]
+
+BEFORE YOU WRITE ANYTHING
+Ask me for any of those four I have not given you. Do not invent them.
+If my descriptor is vague, say so and ask me to narrow it. Do not proceed on a guess.
+
+THEN PRODUCE, IN THIS ORDER
+
+
+1 - CLAIM  (student model)
+State one claim, at a grain size the evidence can actually carry.
+Quote the descriptor verbatim, then narrow it to what this task set can warrant.
+If I have handed you a whole-level claim, tell me so, and propose the micro-claim
+you will assess instead.
+
+2 - ATTRIBUTES  (student model)
+Name 3 to 6 sub-skills the claim decomposes into.
+Each must be observable in a response.
+No attribute may be a personality trait, an effort judgement, or a synonym of another.
+
+3 - EVIDENCE RULES  (evidence model)
+For each attribute, state what counts as evidence of mastery, of partial control,
+and of absence. Write them as rules a second marker could apply without asking me.
+
+4 - TASK TEMPLATE  (task model)
+One reusable template, not ten finished items: the stem pattern, the variable
+elements, and the constraints that hold difficulty steady.
+Say which attribute each part elicits.
+
+5 - DISTRACTOR RATIONALES
+Generate 6 items from the template. For every option, including the correct one,
+name the learner state it represents.
+No filler options. If you cannot name the misconception an option encodes,
+delete it and write a better one.
+
+6 - TASK LADDER  (Depth of Knowledge)
+Add one task at each level, using the same content:
+  DOK 1  recall
+  DOK 2  apply
+  DOK 3  analyse and justify
+  DOK 4  create
+At DOK 3 the learner must give a reason, not only an answer.
+
+7 - MEDIATION LADDER
+For the most diagnostic item, write three graduated prompts:
+  Rung 1  implicit - signals that something needs another look
+  Rung 2  focused  - names the area without giving the rule
+  Rung 3  explicit - states the rule and asks for the form
+Then specify what to record: the first rung at which the learner recovers,
+what changed in the response, and how long it took.
+
+8 - FEEDBACK
+For each anticipated response, write feedback that does all three at once:
+states the standard, shows the comparison, names one action the learner can take now.
+Write it at the level of the process or the learner's own monitoring.
+Never at the level of the person.
+If your feedback could be pasted into another learner's report unchanged, rewrite it.
+
+9 - OUTPUT SCHEMA
+Give me a JSON schema carrying, for each response:
+  item id, attribute tag, misconception tag, rung reached,
+  a quotation of the learner's own words as the evidence,
+  and a confidence value with the reason for that confidence.
+
+10 - WHAT YOU HAVE NOT ESTABLISHED
+Close by listing plainly:
+  the item statistics this set does not have,
+  the real-world performance it has not been compared against,
+  and why it cannot, on its own, justify the DECISION I gave you.
+
+
+RULES YOU DO NOT BREAK
+- You do not set a cut score. Standard setting is human judgement.
+- You do not define the construct. If it is unclear, ask.
+- You never report a level without reporting how much evidence stands behind it.
+- Every claim about a learner must be traceable to a specific response.
+- Check the items for cultural loading, and name any context that would not be
+  equally accessible to my learners.</pre>
+
+  <h2>How to run it</h2>
+  <ol class="steps">
+    <li>Pick one descriptor you teach every term. Not a level, a descriptor.</li>
+    <li>Fill in the four inputs and paste the whole thing. Answer the questions it asks you before it writes anything.</li>
+    <li>Keep blocks 1 and 2. They take an afternoon and you reuse them for years. Blocks 4 to 9 take the model ninety seconds and you regenerate them whenever the content changes.</li>
+    <li>Pilot the items. Section 10 tells you what you still owe the design.</li>
+  </ol>
+
+  <div class="note">
+    <h3>The one block everybody skips</h3>
+    <p>Block 2. Without named attributes there is nothing for the answers to be evidence <i>of</i>, and the output collapses back into a band with no account of why. If you do only blocks 1 and 2 and never run the rest, you will still never write "ten questions on the past simple" again.</p>
+  </div>
+
+  <h2>What it encodes</h2>
+  <div class="grid">
+    <div class="card"><h3>Evidence-centred design</h3><p>Claim, then the evidence that would warrant it, then the task. The item is built last.</p></div>
+    <div class="card"><h3>Grain size</h3><p>A micro-claim needs one item family. A level claim needs representative tasks, an aggregation rule and standard setting.</p></div>
+    <div class="card"><h3>Diagnostic distractors</h3><p>Four options are four hypotheses about one learner, each carrying its own interpretation.</p></div>
+    <div class="card"><h3>Feedback that acts</h3><p>Standard, comparison and action together, written at process level rather than about the person.</p></div>
+    <div class="card"><h3>Dynamic assessment</h3><p>The rung the learner recovers at is the datum, not the score they reached alone.</p></div>
+    <div class="card"><h3>Stated uncertainty</h3><p>Every level travels with how much evidence stands behind it, and what the design still owes.</p></div>
+  </div>
+
+  <footer>Built for the workshop <i>Beyond Placement — designing the evidence, not just the score</i>. Reuse it, change it, argue with it.</footer>
+</div>
+<script>
+(function(){
+  var pre=document.getElementById('p'), ok=document.getElementById('ok');
+  function flash(){ ok.classList.add('on'); setTimeout(function(){ok.classList.remove('on');},2200); }
+  document.getElementById('copy').onclick=function(){
+    var t=pre.innerText;
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(flash,fallback);
+    } else fallback();
+    function fallback(){
+      var ta=document.createElement('textarea'); ta.value=t;
+      ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta);
+      ta.select(); try{document.execCommand('copy');flash();}catch(e){}
+      ta.remove();
+    }
+  };
+  document.getElementById('dl').onclick=function(){
+    var b=new Blob([pre.innerText],{type:'text/plain'});
+    var u=URL.createObjectURL(b), a=document.createElement('a');
+    a.href=u; a.download='claim-before-item-prompt.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){URL.revokeObjectURL(u);},3000);
+  };
+})();
+</script>
+</body>
+</html>
